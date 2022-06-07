@@ -26,7 +26,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="../index.html">Accueil</a>
+                            <a class="nav-link" href="../index.php">Accueil</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active"  aria-current="page" href="#">Publier un film</a>
@@ -39,7 +39,7 @@
 
     <main>
         <h3>Publier un nouveau film</h3>
-        <form class="container-fluid w-50">
+        <form class="container-fluid w-50" method="post">
             <label for="title">Titre</label>
             <input type="text" name="title" id="title" placeholder="Le titre du film" class="form-control">
             <label for="synopsis">Synopsis</label>
