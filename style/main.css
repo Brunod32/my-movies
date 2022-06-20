@@ -7,6 +7,7 @@ body {
 
 h1 {
     font-size: 40px;
+    /* color: red; */
 }
 
 .logo {
@@ -30,4 +31,8 @@ h1 {
 .bi-film {
     font-size:30px;
     margin-right: 10px;
+}
+
+ul {
+    margin-top: 8px;
 }

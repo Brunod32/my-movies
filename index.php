@@ -17,16 +17,21 @@
 <body>
     <?php
 
-        require_once "./entities/Movie.php";
-        $movie = new Movie([
-            "id" => 1,
-            "title" => "Avatar",
-            "description" => "Un film avec des gens bleu",
-            "image_url" => "https://fr.web.img6.acsta.net/medias/nmedia/18/78/95/70/19485155.jpg",
-            "release_date" => "2009-12-16",
-            "director" => "James Cameron",
-            "category_id" => 3
-        ]);
+        require_once "./Entity/Movie.php";
+        require_once "./Controller/MovieController.php";
+
+        $movieController = new MovieController();
+        $movies = $movieController->getAll();
+
+        // $movie = new Movie([
+        //     "id" => 1,
+        //     "title" => "Avatar",
+        //     "description" => "Un film avec des gens bleu",
+        //     "image_url" => "https://fr.web.img6.acsta.net/medias/nmedia/18/78/95/70/19485155.jpg",
+        //     "release_date" => "2009-12-16",
+        //     "director" => "James Cameron",
+        //     "category_id" => 3
+        // ]);
         // $movie->setId(1)->setTitle("Avatar")->setDescription("Un film avec des gens bleu...")->setDirector("James Cameron");
 
     ?>
@@ -58,28 +63,19 @@
         <img src="./images/logo.png" alt="Logo My Movies">
 
         <section class="container d-flex justify-content-center">
-            <div class="card mx-2" style="width: 18rem;">
-                <img src="https://fr.web.img6.acsta.net/medias/nmedia/18/78/95/70/19485155.jpg" class="card-img-top" alt="Avatar">
-                <div class="card-body">
-                  <h5 class="card-title"><?= $movie->getTitle() ?></h5>
-                  <h6 class="card-subtitle mb-2 text-muted"><?= $movie->getRelease_date() ?></h6>
-                  <p class="card-text"><?= $movie->getDescription() ?></p>
-                  <a href="#" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></a>
-                  <a href="#" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"><i class="fa-solid fa-trash-can"></i></a>
+            <?php
+            foreach ($movies as $movie) : ?>
+                <div class="card mx-2" style="width: 18rem;">
+                    <img src="<?= $movie->getImage_url() ?>" class="card-img-top" alt="<?= $movie->getTitle() ?>">
+                    <div class="card-body">
+                    <h5 class="card-title"><?= $movie->getTitle() ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><?= $movie->getRelease_date() ?></h6>
+                    <p class="card-text"><?= $movie->getDescription() ?></p>
+                    <a href="#" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="#" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"><i class="fa-solid fa-trash-can"></i></a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card mx-2" style="width: 18rem;">
-                <img src="https://m.media-amazon.com/images/I/8129a7-9A7L._AC_SL1500_.jpg" class="card-img-top" alt="Titanic">
-                <div class="card-body">
-                  <h5 class="card-title">Titanic</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Drame</h6>
-                  <p class="card-text">Un film avec un bateau qui coule</p>
-                  <a href="#" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></a>
-                  <a href="#" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"><i class="fa-solid fa-trash-can"></i></a>
-                </div>
-            </div>
-
+            <?php endforeach ?>
         </section>
     </main>
 
