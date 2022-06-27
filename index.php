@@ -17,22 +17,40 @@
 <body>
     <?php
 
-        require_once "./Entity/Movie.php";
-        require_once "./Controller/MovieController.php";
+    // Gérer l'autochargement de classe
+    // Fonction permettant de charger
+    function loadClass(string $class)
+    {
+        if ($class === "DotEnv") {
+            require_once "./config/$class.php";
+        } else if (str_contains($class, "Controller")) {
+            require_once "./Controller/$class.php";
+        } else  {
+            require_once "./Entity/$class.php";
+        }
+    }
+    
+    spl_autoload_register("loadClass");
 
-        $movieController = new MovieController();
-        $movies = $movieController->getAll();
+    $movieController = new MovieController();
+    $movies = $movieController->getAll();
 
-        // $movie = new Movie([
-        //     "id" => 1,
-        //     "title" => "Avatar",
-        //     "description" => "Un film avec des gens bleu",
-        //     "image_url" => "https://fr.web.img6.acsta.net/medias/nmedia/18/78/95/70/19485155.jpg",
-        //     "release_date" => "2009-12-16",
-        //     "director" => "James Cameron",
-        //     "category_id" => 3
-        // ]);
-        // $movie->setId(1)->setTitle("Avatar")->setDescription("Un film avec des gens bleu...")->setDirector("James Cameron");
+    $categoryController = new CategoryController();
+    $categories = $categoryController->getAll();
+    // echo "<pre>";
+    // var_dump($categories);
+    // echo "</pre>";
+
+    // $movie = new Movie([
+    //     "id" => 1,
+    //     "title" => "Avatar",
+    //     "description" => "Un film avec des gens bleu",
+    //     "image_url" => "https://fr.web.img6.acsta.net/medias/nmedia/18/78/95/70/19485155.jpg",
+    //     "release_date" => "2009-12-16",
+    //     "director" => "James Cameron",
+    //     "category_id" => 3
+    // ]);
+    // $movie->setId(1)->setTitle("Avatar")->setDescription("Un film avec des gens bleu...")->setDirector("James Cameron");
 
     ?>
     <header>
@@ -64,15 +82,21 @@
 
         <section class="container d-flex justify-content-center">
             <?php
-            foreach ($movies as $movie) : ?>
+            foreach ($movies as $movie) :
+                // echo "<pre>";
+                // var_dump($movie);
+                // echo "</pre>";
+                $category = $categoryController->get($movie->getCategory_id());
+            ?>
                 <div class="card mx-2" style="width: 18rem;">
                     <img src="<?= $movie->getImage_url() ?>" class="card-img-top" alt="<?= $movie->getTitle() ?>">
                     <div class="card-body">
                     <h5 class="card-title"><?= $movie->getTitle() ?></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><?= $movie->getRelease_date() ?></h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><?= $movie->getRelease_date() ?> - <?= $movie->getDirector() ?></h6>
                     <p class="card-text"><?= $movie->getDescription() ?></p>
+                    <footer class="blockquote-footer" style="color: <?=$category->getColor() ?>"><?= $category->getName() ?></footer>
                     <a href="#" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="#" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"><i class="fa-solid fa-trash-can"></i></a>
+                    <a href="./views/delete.php?id=<?= $movie->getId() ?>" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"><i class="fa-solid fa-trash-can"></i></a>
                     </div>
                 </div>
             <?php endforeach ?>
