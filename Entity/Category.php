@@ -5,6 +5,7 @@ class Category {
     private string $name;
     private string $color;
     
+    // Constructeur
     public function __construct(array $data) {
         $this->hydrate($data);
     }
